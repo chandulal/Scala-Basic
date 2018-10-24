@@ -52,4 +52,3 @@ object Person{
 Person("Alice", 20).name
 Person(Tuple("Alice",10))
 Person(Random()).age
-
