@@ -1,27 +1,23 @@
 //Recursion
 
-def factorial(number: Int): Int = {
-  if (number == 1) 1 else number * factorial(number-1)
+def factorial(number: Int) :Int =
+  if(number == 1) 1 else number * factorial(number -1)
+
+factorial(50)
+
+def fact(accumulator: Int, number: Int) :Int ={
+  if(number == 1) accumulator
+  else fact(accumulator * number, number - 1)
 }
+fact(1, 50)
 
-factorial(5)
+def improvedFact(number: Int) :Int = {
 
-//Tail Recursion
-def fact(accumulator: Int, number: Int): Int = {
-  if (number == 1) accumulator
-  else fact(number * accumulator, number - 1)
-}
-
-fact(1,5)
-
-
-// Abstraction of accumulator
-def improvedFact(number: Int): Int = {
-  def fact(accumulator: Int, number: Int): Int = {
-    if (number == 1) accumulator
-    else fact(accumulator * number, number - 1)
+  def fact(accumulator: Int, n: Int) :Int ={
+    if(n == 1) accumulator
+    else fact(accumulator * n, n - 1)
   }
-  fact(1,number)
+  fact(1, number)
 }
 
 improvedFact(5)

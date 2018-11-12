@@ -1,42 +1,46 @@
+/******************************************************************************
 
-//def product( x: Int, y: Int) = x * y
-implicit val multiplicand: Int = 7
-implicit val multiplier: Double = 8.0
+// Implicit values
+
+  ******************************************************************************/
 
 def product(x: Int)(implicit y: Int) = x * y
-//product(2)(3)
-product(2)
 
-//def max(x: Int, y: Int): Boolean = x < y
-def isLess[T](x: T, y: T)(implicit ord: Ordering[T]): Boolean = ord.lt(x, y)
-isLess("apple", "pineapple")
-isLess(1, 2)
+//product(5)
 
-def msort[T](x: List[T])(implicit ord: Ordering[T]): List[T] = {
-  val mid = x.length / 2
-  if (mid == 0) x
-  else {
-    def merge(x1: List[T], x2: List[T]): List[T] = {
-      (x1, x2) match {
-        case(Nil, x2) => x2
-        case(x1, Nil) => x1
-        case(x1head:: x1tail, x2head:: x2tail) =>
-          if (ord.lt(x1head,x2head)) x1head:: merge(x1tail, x2)
-          else x2head :: merge(x1, x2tail)
+implicit val multiplier: Int = 6
+
+product(5)
+
+def isSmaller[T](x: T, y: T)(implicit ord: Ordering[T]): Boolean =
+  ord.lt(x, y)
+
+isSmaller(10, 2)
+
+isSmaller("apple", "orange")
+
+def msort[T](list: List[T])(implicit ordering: Ordering[T]): List[T] = {
+  val mid = list.length / 2
+  if(mid == 0) list
+  else{
+    def merge(firstHalf: List[T], secondHalf: List[T]): List[T] = {
+      (firstHalf, secondHalf) match {
+        case (Nil, secondHalf) => secondHalf
+        case (firstHalf, Nil) => firstHalf
+        case (firstHalfHead :: firstHalfTail, secondHalfHead :: secondHalfTail) =>
+          if (ordering.lt(firstHalfHead, secondHalfHead))
+            firstHalfHead :: merge(firstHalfTail, secondHalf)
+          else
+            secondHalfHead :: merge(firstHalf, secondHalfTail)
       }
     }
-    val (firstlist, secondlist) = x.splitAt(mid)
-    merge(msort(firstlist), msort(secondlist))
+    val (split1, split2) = list.splitAt(mid)
+    merge(msort(split1), msort(split2))
   }
 }
 
-val numbers = List(8,3,2,9)
-msort(numbers)
+val listOfNumbers = List(193, 32, 432, 543, 65, 76, 876)
+val listOfFruits = List("apple", "strawberry", "orange", "pineapple", "blueberry")
 
-val strings = List("apple", "pineapple", "orange")
-msort(strings)
-
-val num1 = 1::2::9::7::Nil
-msort(num1)
-
-
+msort(listOfNumbers)
+msort(listOfFruits)

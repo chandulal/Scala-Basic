@@ -1,27 +1,24 @@
+
 trait User {
   val name: String
   val score: Int
 }
 
-class FreeUser(val name: String, val score: Int) extends User
-class PremiumUser(val name: String, val score: Int) extends User
+case class FreeUser(name: String, score: Int, upgradeProb: Double) extends User
+case class PremiumUser(name: String, score: Int) extends User
 
-object FreeUser {
-  def unapply(freeUser : FreeUser): Option[(String, Int)] =
-    Some(freeUser.name, freeUser.score)
+val user: User = FreeUser("Alice", 20, 0.8)
+
+object upgradeProbability {
+  def unapply(freeUser: FreeUser): Boolean =
+    freeUser.upgradeProb > 0.7
 }
-
-object PremiumUser {
-  // Gets attributes from an object.
-  def unapply(premiumUser : PremiumUser): Option[(String, Int)] =
-    Some(premiumUser.name, premiumUser.score)
-}
-
-val user: User = new FreeUser("Alice", 20)
 
 user match {
-  case FreeUser(name, score) => s"$name is a Free User."
-  case PremiumUser(name, score) => s"$name is a Premium User."
-  case _ => s"User not found."
+  case freeUser @ upgradeProbability() =>
+    println(s"Welcome ${freeUser.name} what can we do for you?")
+  case FreeUser(name, score, p)  =>
+    println(s"Welcome $name. ")
+  case PremiumUser(name, score) => println(s"Welcome back, $name.")
+  case _ => "Not found"
 }
-

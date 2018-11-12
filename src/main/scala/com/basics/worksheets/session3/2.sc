@@ -1,32 +1,25 @@
+
 val votes = Seq(
   ("Java", 10),
   ("Scala", 15),
-  ("Java",3),
+  ("Java", 3),
   ("Scala", 5)
 )
-// This
-//val votesByLanguage = votes.groupBy(_._1)
 
-// or
-val votesByLanguage = votes.groupBy{
-  case(lang, _) if(lang == "Java") => "java"
-  case(lang, _)  => lang
-}
+val votesByLang = votes.groupBy { case (lang, _) => lang }
 
-val voteCountsByLang = votesByLanguage.map {
-  case(lang, votes) => {
-    val count = votes.map{
-      case (lang, count) => count
+val countsByLang = votesByLang.map {
+  case (lang, countSeq) => {
+    val counts = countSeq.map { case (_, count) =>
+      count
     }
-    println(count)
-    (lang, count.sum)
+    (lang, counts.sum)
   }
 }
-
-val orderedCounts = voteCountsByLang.toSeq.sortBy(_._2).reverse
+val orderedCounts = countsByLang.toSeq.sortBy(_._2).reverse
 
 val ints = 1 to 100
 
-val indexedSeq = ints.map(x => x)
+val abc = ints.map(x => x * 2)
 
-indexedSeq(0)
+abc(4)

@@ -1,8 +1,7 @@
 println("Hello World")
 
-(1 to 20).map( _ * 10)
+(1 to 10).map( _ * 10)
 
-//--------------------------------------------
 //statements
 
 val weight=50 //kg
@@ -17,15 +16,10 @@ else
 
 val comment1 = if(weight > 70) "Start exercise" else "You are fit"
 
-//------------------------------------------------------------------------------
-// Immutability (Pure Function -> should not modify any outside arguments
-//                             -> should always return the same value given same arguments
-// )
-
 class Person(var name: String)
 
-def changeName(person: Person) = {
-  new Person(person.name + "blob")
+def changeName(person: Person) ={
+  new Person(person.name + "Blob")
 }
 
 val person = new Person("Alice")
